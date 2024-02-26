@@ -3,9 +3,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "appCDevLib": [
-        "./dist/app-cdev-lib"
-      ]
+      "appCDevLib": ["./dist/app-cdev-lib"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -24,10 +22,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

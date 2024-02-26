@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
-import { PerfilComponent } from './perfil/perfil.component';
+import { CourseListComponent } from './course/infrastructure/presentation/course-list/course-list.component';
 
 @Component({
   selector: 'cdev-root',
   standalone: true,
-  imports: [PerfilComponent],
+  imports: [CourseListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

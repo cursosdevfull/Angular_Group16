@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './hobbie.component.css',
 })
 export class HobbieComponent {
-  @Input('hobby') nameOfHobby!: string;
+  @Input() hobby!: string;
 
   getRandomNumber() {
     return Math.random();
