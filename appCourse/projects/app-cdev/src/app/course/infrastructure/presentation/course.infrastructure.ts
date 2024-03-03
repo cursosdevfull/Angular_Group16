@@ -1,9 +1,6 @@
-//import { Injectable } from '@angular/core';
 import { Course } from '../../domain/course';
 import { CourseRepository } from '../../domain/repositories/course.repository';
 
-//import { LogService } from '../../../core/services/log.service';
-//@Injectable()
 export class CourseInfrastructure implements CourseRepository {
   private courses: Course[] = [
     new Course({
@@ -26,10 +23,7 @@ export class CourseInfrastructure implements CourseRepository {
     }),
   ];
 
-  //constructor(private logService: LogService) {}
-
   getCourses(): Course[] {
-    //this.logService.log('Getting courses');
     return [...this.courses];
   }
 
@@ -38,9 +32,6 @@ export class CourseInfrastructure implements CourseRepository {
   }
 
   removeCourse(courseId: string): void {
-    /*this.courses = this.courses.filter(
-      (course) => course.properties.courseId !== courseId
-    );*/
     const position = this.courses.findIndex(
       (course) => course.properties.courseId === courseId
     );

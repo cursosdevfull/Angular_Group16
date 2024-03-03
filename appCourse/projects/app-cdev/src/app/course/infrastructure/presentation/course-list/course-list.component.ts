@@ -21,21 +21,8 @@ class FakeToken {
 })
 export class CourseListComponent {
   courses: Course[] = [];
-  //courseService: CourseService = inject(CourseService);
 
-  constructor(
-    private readonly application: CourseApplication /*@Inject(LAYOUT_OPTIONS)
-    private readonly data: {
-      menu: { visible: boolean };
-      toolbar: { visible: boolean };
-      footer: { visible: boolean };
-    },
-    @Inject('DATABASE_CONNECTION') private connection: string*/
-  ) {
+  constructor(private readonly application: CourseApplication) {
     this.courses = this.application.list();
-    /*this.courses = this.courseService.getCourses();
-    console.log('CourseListComponent', this.courses);
-    console.log('LAYOUT_OPTIONS', this.data);
-    console.log('DATABASE_CONNECTION', this.connection);*/
   }
 }
