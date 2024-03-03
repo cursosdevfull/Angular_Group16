@@ -1,0 +1,33 @@
+div {
+  height: 100vh;
+}
+
+.container {
+  width: 100vw;
+  display: flex;
+  background-color: rgb(64, 90, 90);
+}
+
+.info-company {
+  flex: 1 1 70%;
+  background-color: yellow;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-company div {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.info-company img {
+  width: 100%;
+  max-width: 200px;
+}
+
+.login {
+  flex: 1 1 30%;
+  background-color: red;
+}

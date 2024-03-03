@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 
 import { Course } from '../domain/course';
 import { CourseRepository } from '../domain/repositories/course.repository';
-import { CourseInfrastructure } from '../infrastructure/presentation/course.infrastructure';
+import { CourseInfrastructure } from '../infrastructure/course.infrastructure';
 
 @Injectable()
 export class CourseApplication {
