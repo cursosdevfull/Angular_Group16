@@ -1,4 +1,8 @@
-import { ApplicationConfig, InjectionToken } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  InjectionToken,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import player from 'lottie-web';
@@ -8,11 +12,15 @@ import { routes } from './app.routes';
 import { LogService } from './core/services/log.service';
 import { CourseApplication } from './course/application/course.application';
 import { CourseInfrastructure } from './course/infrastructure/course.infrastructure';
+import { LayoutModule } from './modules/layout/layout.module';
 
 export const LAYOUT_OPTIONS = new InjectionToken('LAYOUT_OPTIONS');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(
+      LayoutModule.forRoot({ showMenu: true, showHeader: true })
+    ),
     provideRouter(routes),
     CourseInfrastructure,
     CourseApplication,
@@ -23,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LAYOUT_OPTIONS,
       useValue: {
-        menu: { visible: false },
+        menu: { visible: true },
         toolbar: { visible: false },
         footer: { visible: false },
       },

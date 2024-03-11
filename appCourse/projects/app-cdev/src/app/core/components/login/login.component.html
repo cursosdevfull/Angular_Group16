@@ -1,0 +1,59 @@
+<div class="container-form">
+  <div class="parent" [ngClass]="{ 'move-right': next }">
+    <form [formGroup]="fg">
+      <h1>Sign in</h1>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error *ngIf="fg.get('email')!.hasError('required')"
+          >Email is required</mat-error
+        >
+        <mat-error *ngIf="fg.get('email')!.hasError('email')"
+          >Email invalid</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-icon matPrefix>lock</mat-icon>
+        <mat-error>Password is required</mat-error>
+      </mat-form-field>
+      <div class="recaptcha">
+        <re-captcha formControlName="recaptchaCode"></re-captcha>
+      </div>
+      <div class="btnAction">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="login()"
+          [disabled]="fg.invalid"
+        >
+          Enter
+        </button>
+      </div>
+      <div>
+        <a routerLink="/auth/register" class="linkAction"
+          >Are you new? Register here</a
+        >
+      </div>
+    </form>
+    <form>
+      <h1>Security</h1>
+      <mat-form-field appearance="outline">
+        <mat-label>Token</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <div class="btnAction">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="activate2fa()"
+        >
+          Enter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

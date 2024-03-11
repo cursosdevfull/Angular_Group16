@@ -1,0 +1,59 @@
+.container-form {
+  display: flex;
+  width: 340px;
+  overflow: hidden;
+}
+
+.parent {
+  display: flex;
+  transition: 0.3s ease-in-out;
+  -webkit-animation: 0.3s ease-in-out;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 340px;
+}
+
+form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.recaptch {
+  width: 100%;
+}
+
+.btnAction {
+  display: flex;
+  flex-direction: column;
+}
+
+.linkAction {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.linkAction,
+.linkAction:visited,
+.linkAction:active {
+  color: #016b45;
+  text-decoration: underline;
+}
+
+.linkAction:hover {
+  color: blue;
+}
+
+mat-error {
+  font-size: 12px;
+}
+
+.move-right {
+  transform: translateX(-50%);
+}

@@ -10,7 +10,7 @@ div {
 
 .info-company {
   flex: 1 1 70%;
-  background-color: yellow;
+  background-color: #016b45;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,6 +28,9 @@ div {
 }
 
 .login {
+  display: flex;
   flex: 1 1 30%;
-  background-color: red;
+  background-color: whitesmoke;
+  align-items: center;
+  justify-content: center;
 }
