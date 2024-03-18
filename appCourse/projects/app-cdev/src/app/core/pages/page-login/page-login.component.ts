@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
+import { LayoutService } from '../../../modules/layout/layout.service';
 import { LoginComponent } from '../../components/login/login.component';
 import { RegisterComponent } from '../../components/register/register.component';
 
@@ -21,4 +22,8 @@ export class PageLoginComponent {
     maxWidth: '80%',
     maxHeight: '100vh',
   };
+
+  constructor(layoutService: LayoutService) {
+    layoutService.configuration = { showMenu: false, showHeader: false };
+  }
 }

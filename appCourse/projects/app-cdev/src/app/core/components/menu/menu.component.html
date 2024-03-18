@@ -1,3 +1,10 @@
-<div class="container">
-  <h1>Menu</h1>
-</div>
+<mat-nav-list>
+  <mat-list-item routerLinkActive="activeLink" *ngFor="let item of items">
+    <a routerLink="{{ item.route }}">
+      <button mat-button>
+        <mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
+        <h4 mat-line>{{ item.label }}</h4>
+      </button>
+    </a>
+  </mat-list-item>
+</mat-nav-list>

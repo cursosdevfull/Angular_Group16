@@ -1,3 +1,47 @@
-.container {
-  width: 200px;
+mat-nav-list {
+  width: 85%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+mat-list-item {
+  border-radius: 8px;
+  color: white;
+  margin: 10px 0;
+  transition: 0.2s background-color;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+mat-list-base {
+  padding-top: 0;
+}
+
+a,
+a:link,
+a:visited,
+a:active {
+  font-size: 13px;
+  font-weight: 100;
+  display: block;
+  width: 100%;
+  padding: 0 10px;
+}
+
+a:hover {
+  color: white !important;
+}
+
+.activeLink a,
+.activeLink a:link,
+.activeLink a:visited,
+.activeLink a:active {
+  color: white;
+  font-size: 13px;
+  font-weight: 100;
+  width: 100%;
+}
+
+.activeLink button {
+  font-weight: 100;
+  color: #2d73b1;
 }

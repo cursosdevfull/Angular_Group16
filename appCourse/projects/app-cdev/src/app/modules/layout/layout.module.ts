@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { ILayout } from './layout.interface';
+import { LayoutService } from './layout.service';
 import { LAYOUT_OPTIONS_TOKEN } from './layout.token';
 
 @NgModule()
@@ -13,6 +14,7 @@ export class LayoutModule {
           provide: LAYOUT_OPTIONS_TOKEN,
           useValue: config,
         },
+        LayoutService,
       ],
     };
   }

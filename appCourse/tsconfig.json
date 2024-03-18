@@ -3,7 +3,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "appCDevLib": ["./dist/app-cdev-lib"]
+      "appCDevLib": ["./dist/app-cdev-lib"],
+      "@shared/components": [
+        "./projects/app-cdev/src/app/shared/components/index.ts"
+      ],
+      "@modules/layout": ["./projects/app-cdev/src/app/modules/layout/index.ts"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -22,12 +26,16 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"]
+    "lib": ["ES2022", "dom"],
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   }
 }

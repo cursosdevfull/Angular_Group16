@@ -1,13 +1,24 @@
-mat-sidenav-container,
-mat-sidenav-content,
-mat-sidenav {
+/* mat-drawer-container,
+mat-drawer-content,
+mat-drawer {
   height: 100vh;
 }
 
-mat-sidenav-content {
+mat-drawer-content {
   margin: 0 !important;
 }
 
-mat-sidenav {
+mat-drawer {
   background-color: #f5f5f5;
+  width: 200px;
+}
+ */
+
+mat-drawer-content,
+mat-drawer {
+  height: 100vh;
+}
+
+mat-drawer {
+  width: 200px;
 }

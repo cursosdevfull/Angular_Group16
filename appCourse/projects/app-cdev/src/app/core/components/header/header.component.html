@@ -1,1 +1,19 @@
-<p>header works!</p>
+<mat-toolbar>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <div class="content-button">
+      <img src="/assets/iconos/user.png" alt="" />
+      <span>User's name</span>
+      <mat-icon>expand_more</mat-icon>
+    </div>
+  </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>lock</mat-icon>
+    <span>Bloquear sesión</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>logout</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu>
