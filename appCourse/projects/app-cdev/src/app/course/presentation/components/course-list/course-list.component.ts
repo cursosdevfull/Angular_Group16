@@ -1,7 +1,7 @@
 import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { TableComponent } from '../../../../shared/components/table/table.component';
+import { IMetadata, TableComponent } from '../../../../shared/components/table/table.component';
 import { TCourse } from '../../pages/course-page/course-page.component';
 
 @Component({
@@ -12,5 +12,17 @@ import { TCourse } from '../../pages/course-page/course-page.component';
   styleUrl: './course-list.component.css',
 })
 export class CourseListComponent {
-  @Input() items: TCourse = [];
+  @Input('items') dataSource: TCourse = [];
+
+  metadata: IMetadata[] = [
+    { field: 'id', label: 'ID' },
+    {
+      field: 'title',
+      label: 'Title',
+    },
+    {
+      field: 'slug',
+      label: 'Slug',
+    },
+  ];
 }

@@ -1,19 +1,39 @@
-import { Component } from '@angular/core';
+import { NgFor } from '@angular/common';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+
+export interface IMetadata {
+  field: string;
+  label: string;
+}
 
 @Component({
   selector: 'cdev-table',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [MatTableModule, NgFor],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
 export class TableComponent {
-  dataSource = [
-    { name: 'user01', lastname: 'lastname01', age: 20 },
-    { name: 'user02', lastname: 'lastname02', age: 30 },
-    { name: 'user03', lastname: 'lastname03', age: 40 },
-  ];
+  @Input() metadata: IMetadata[] = [];
 
-  displayedColumns: string[] = ['name', 'age', 'lastname'];
+  /*   subMetadata = [
+    { field: 'lastname', label: 'Apellido' },
+    { field: 'age', label: 'Edad de la persona' },
+  ]; */
+
+  @Input() dataSource: any[] = [];
+
+  displayedColumns: string[] = [];
+  // displayedSubColumns: string[] = ['details'];
+
+  constructor() {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['metadata']) {
+      this.displayedColumns = this.metadata.map((m) => m.field);
+    }
+  }
+
+  ngOnInit() {}
 }

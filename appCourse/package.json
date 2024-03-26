@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
     "lottie-web": "^5.12.2",
+    "neverthrow": "^6.1.0",
     "ng-recaptcha": "^13.2.1",
     "ngx-lottie": "^11.0.1",
     "rxjs": "~7.8.0",
