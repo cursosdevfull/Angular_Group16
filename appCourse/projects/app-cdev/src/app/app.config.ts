@@ -1,9 +1,14 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, InjectionToken } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  InjectionToken,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import player from 'lottie-web';
 import { provideLottieOptions } from 'ngx-lottie';
+import { PerfectScrollbarConfigInterface } from 'ngx-om-perfect-scrollbar';
 
 import { routes } from './app.routes';
 import { AuthApplication } from './core/application/auth.application';
@@ -15,6 +20,10 @@ export const LAYOUT_OPTIONS = new InjectionToken('LAYOUT_OPTIONS');
 
 const infrastructure = [AuthInfrastructure];
 const application = [AuthApplication];
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
