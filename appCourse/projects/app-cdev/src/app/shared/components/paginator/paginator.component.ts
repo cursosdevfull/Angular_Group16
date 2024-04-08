@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
+
+import { Paginator } from '../../../core/providers/paginator';
 
 @Component({
   selector: 'cdev-paginator',
@@ -7,6 +13,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
   imports: [MatPaginatorModule],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.css',
+  providers: [{ provide: MatPaginatorIntl, useClass: Paginator }],
 })
 export class PaginatorComponent {
   @Input() length: number = 0;

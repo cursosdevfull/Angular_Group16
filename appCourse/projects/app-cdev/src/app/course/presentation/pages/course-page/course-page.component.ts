@@ -7,7 +7,9 @@ import {
   PerfectScrollbarModule,
 } from 'ngx-om-perfect-scrollbar';
 
+import { ComponentBase } from '../../../../core/classes/component-base';
 import { PaginatorComponent } from '../../../../shared/components/paginator/paginator.component';
+import { IMetadata } from '../../../../shared/components/table/table.component';
 import { CourseListComponent } from '../../components/course-list/course-list.component';
 
 export interface ICourse {
@@ -41,8 +43,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     },
   ],
 })
-export class CoursePageComponent {
-  courses: TCourse = [
+export class CoursePageComponent extends ComponentBase<ICourse, TCourse> {
+  dataOriginal = [
     {
       id: 1,
       title: 'Angular',
@@ -300,22 +302,21 @@ export class CoursePageComponent {
     },
   ];
 
-  pageSize = 20;
-
-  data: TCourse = [];
-
-  currentPage = 0;
+  metadata: IMetadata[] = [
+    { field: 'id', label: 'ID' },
+    {
+      field: 'title',
+      label: 'Title',
+    },
+    {
+      field: 'slug',
+      label: 'Slug',
+    },
+  ];
 
   constructor(layoutService: LayoutService) {
+    super();
     layoutService.configuration = { showMenu: true, showHeader: true };
     this.loadPage(this.currentPage);
-  }
-
-  loadPage(page: number) {
-    this.currentPage = page;
-    this.data = this.courses.slice(
-      page * this.pageSize,
-      page * this.pageSize + this.pageSize
-    );
   }
 }

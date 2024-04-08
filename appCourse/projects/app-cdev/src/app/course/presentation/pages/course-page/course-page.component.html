@@ -1,11 +1,11 @@
 <cdev-title title="Course" icon="book_2"></cdev-title>
 <cdev-container>
   <perfect-scrollbar style="width: 100%; height: 90%">
-    <cdev-course-list [items]="data"></cdev-course-list>
+    <cdev-course-list [items]="data" [metadata]="metadata"></cdev-course-list>
   </perfect-scrollbar>
   <div>
     <cdev-paginator
-      [length]="courses.length"
+      [length]="dataOriginal.length"
       [pageSize]="pageSize"
       (onChangePage)="loadPage($event)"
     ></cdev-paginator>

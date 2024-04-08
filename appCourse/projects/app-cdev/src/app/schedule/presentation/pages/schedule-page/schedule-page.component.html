@@ -1,4 +1,16 @@
 <cdev-title title="Schedule" icon="schedule"></cdev-title>
 <cdev-container>
-    <cdev-schedule-list></cdev-schedule-list>
+  <perfect-scrollbar style="width: 100%; height: 90%">
+    <cdev-schedule-list
+      [items]="data"
+      [metadata]="metadata"
+    ></cdev-schedule-list>
+  </perfect-scrollbar>
+  <div>
+    <cdev-paginator
+      [length]="dataOriginal.length"
+      [pageSize]="pageSize"
+      (onChangePage)="loadPage($event)"
+    ></cdev-paginator>
+  </div>
 </cdev-container>

@@ -1,14 +1,31 @@
 import { NgClass, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 
-import { AuthApplication } from '../../application/auth.application';
-import { AuthFactory } from '../../domain/authFactory';
+import { Role } from '../../domain/entities/role';
+import { AuthRegister } from '../../domain/roots/auth-register';
+import { IResponseRegister, RegisterDto, RegisterInfo } from './register.dto';
+
+/* interface AuthRegister {
+  name: string;
+  lastname: string;
+  email: string;
+  password: string;
+  image?: string;
+  roles: Role[];
+} */
 
 @Component({
   selector: 'cdev-register',
@@ -27,13 +44,16 @@ import { AuthFactory } from '../../domain/authFactory';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  fg: FormGroup;
-  fgToken: FormGroup;
-  next = false;
+  public readonly fg: FormGroup;
+  public readonly fgToken: FormGroup;
+  public next = false;
+  public qrCode!: string;
+  private accessToken!: string;
+  private secret!: string;
 
   constructor(
     private readonly router: Router,
-    private readonly application: AuthApplication
+    private readonly http: HttpClient
   ) {
     this.fg = new FormGroup({
       name: new FormControl(null, [
@@ -53,42 +73,58 @@ export class RegisterComponent {
 
     this.fgToken = new FormGroup({
       token: new FormControl(null, Validators.required),
-      secret: new FormControl('ckdkdkddkieie'),
     });
   }
 
   register() {
-    const values = this.fg.value;
-    const authCreateResult = AuthFactory.create(
-      values.name,
-      values.lastname,
-      values.email,
-      values.password,
-      [{ roleId: 1 }]
-    );
+    const { name, lastname, email, password } = this.fg.value;
+    const role = new Role('d18d0d20-d686-4520-a33c-e5e7653382bc');
 
-    if (authCreateResult.isErr()) {
-      console.log(authCreateResult.error.message);
-      return;
-    }
+    const authRegister = new AuthRegister(name, lastname, email, password, [
+      role,
+    ]);
 
-    const auth = authCreateResult.value;
-    this.application.register(auth).subscribe({
-      next: (data) => console.log(data),
-    });
-
-    /* if (auth instanceof Error) {
-      console.log(auth.message);
-      return;
-    } else if (auth instanceof Auth) {
-      const application = new AuthApplication();
-      console.log(application.register(auth));
-    } else {
-      console.log('Error');
-    } */
+    this.http
+      .post<RegisterInfo>(
+        'https://backend-cursos-dev.h7dtvegsb89r2.us-east-1.cs.amazonlightsail.com/v1/auth/register',
+        authRegister.properties
+      )
+      .pipe(
+        map((info: unknown) =>
+          RegisterDto.fromDataToRequest(info as IResponseRegister)
+        )
+      )
+      .subscribe({
+        next: (data: RegisterInfo) => {
+          this.qrCode = data.qrCode;
+          this.secret = data.secret;
+          this.accessToken = data.accessToken;
+          this.next = true;
+        },
+        error: console.log,
+      });
   }
 
   activate2fa() {
-    this.router.navigate(['/auth/login']);
+    const { token } = this.fgToken.value;
+
+    this.http
+      .post<RegisterInfo>(
+        'https://backend-cursos-dev.h7dtvegsb89r2.us-east-1.cs.amazonlightsail.com/v1/auth/enable-2fa',
+        {
+          secret: this.secret,
+          token,
+        },
+        {
+          headers: { Authorization: `Bearer ${this.accessToken}` },
+        }
+      )
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.router.navigate(['/auth/login']);
+        },
+        error: console.log,
+      });
   }
 }

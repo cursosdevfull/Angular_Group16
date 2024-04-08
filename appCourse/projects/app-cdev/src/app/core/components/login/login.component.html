@@ -38,11 +38,11 @@
         >
       </div>
     </form>
-    <form>
+    <form [formGroup]="fgSecurity">
       <h1>Security</h1>
       <mat-form-field appearance="outline">
         <mat-label>Token</mat-label>
-        <input matInput />
+        <input matInput formControlName="token" />
       </mat-form-field>
       <div class="btnAction">
         <button
@@ -50,6 +50,7 @@
           color="primary"
           type="button"
           (click)="activate2fa()"
+          [disabled]="fgSecurity.invalid"
         >
           Enter
         </button>
