@@ -1,5 +1,4 @@
 import { NgClass, NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
   FormControl,
@@ -18,9 +17,10 @@ import {
   RecaptchaModule,
   RecaptchaSettings,
 } from 'ng-recaptcha';
-import { map } from 'rxjs';
 
-import { IResponseLogin, LoginDto, LoginInfo } from './login.dto';
+import { AuthApplication } from '../../../auth/application/auth.application';
+import { LoginInfo } from '../../../auth/infrastructure/dtos/login.dto';
+import { StorageApplication } from '../../../storage/application/storage.application';
 
 const KEY_PUBLIC = '6Len6pMpAAAAAHGxLZDXxvPwRLu4W8DjOpdIs13r';
 
@@ -52,75 +52,56 @@ const KEY_PUBLIC = '6Len6pMpAAAAAHGxLZDXxvPwRLu4W8DjOpdIs13r';
   ],
 })
 export class LoginComponent {
-  fg: FormGroup;
-  fgSecurity: FormGroup;
+  fgLogin!: FormGroup;
+  fgToken!: FormGroup;
   next = false;
   public accessToken!: string;
   public refreshToken!: string;
 
   constructor(
     private readonly router: Router,
-    private readonly http: HttpClient
-  ) {
-    this.fg = new FormGroup({
+    private readonly storage: StorageApplication,
+    private readonly authApplication: AuthApplication
+  ) {}
+
+  login() {
+    const { email, password, recaptchaCode } = this.fgLogin.value;
+    this.authApplication.login(email, password, recaptchaCode).subscribe({
+      next: this.nextLogin.bind(this),
+      error: console.log,
+    });
+  }
+
+  verify2fa() {
+    const { token } = this.fgToken.value;
+    this.authApplication.verify2fa(token, this.accessToken).subscribe({
+      next: this.nextActivate2fa.bind(this),
+      error: console.log,
+    });
+  }
+
+  ngOnInit() {
+    this.fgLogin = new FormGroup({
       email: new FormControl(null, [Validators.email, Validators.required]),
       password: new FormControl(null, Validators.required),
       recaptchaCode: new FormControl(null, Validators.required),
     });
 
-    this.fgSecurity = new FormGroup({
+    this.fgToken = new FormGroup({
       token: new FormControl(null, Validators.required),
     });
   }
 
-  login() {
-    const { email, password, recaptchaCode } = this.fg.value;
-    this.http
-      .post<LoginInfo>(
-        'https://backend-cursos-dev.h7dtvegsb89r2.us-east-1.cs.amazonlightsail.com/v1/auth/login',
-        {
-          email,
-          password,
-          recaptchaCode,
-        }
-      )
-      .pipe(
-        map((el: unknown) => LoginDto.fromDataToRequest(el as IResponseLogin))
-      )
-      .subscribe({
-        next: (data: LoginInfo) => {
-          this.accessToken = data.accessToken;
-          this.refreshToken = data.refreshToken;
-          this.next = true;
-        },
-        error: console.log,
-      });
+  nextLogin(data: LoginInfo) {
+    this.accessToken = data.accessToken;
+    this.refreshToken = data.refreshToken;
+    this.next = true;
   }
 
-  activate2fa() {
-    const { token } = this.fgSecurity.value;
-    this.http
-      .post<LoginInfo>(
-        'https://backend-cursos-dev.h7dtvegsb89r2.us-east-1.cs.amazonlightsail.com/v1/auth/verify-2fa',
-        {
-          token,
-        },
-        {
-          headers: { Authorization: `Bearer ${this.accessToken}` },
-        }
-      )
-      .pipe(
-        map((el: unknown) => LoginDto.fromDataToRequest(el as IResponseLogin))
-      )
-      .subscribe({
-        next: (data: LoginInfo) => {
-          this.accessToken = data.accessToken;
-          this.refreshToken = data.refreshToken;
-          this.router.navigate(['/dashboard']);
-        },
-        error: console.log,
-      });
-
-    //this.router.navigate(['/', 'dashboard']);
+  nextActivate2fa(data: LoginInfo) {
+    this.storage.save('accessToken', data.accessToken);
+    this.storage.save('refreshToken', data.refreshToken);
+    this.authApplication.setInformationUser(data.accessToken);
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -12,11 +12,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
-import { map } from 'rxjs';
 
+import { AuthApplication } from '../../../auth/application/auth.application';
+import { RegisterInfo } from '../../../auth/infrastructure/dtos/register.dto';
 import { Role } from '../../domain/entities/role';
 import { AuthRegister } from '../../domain/roots/auth-register';
-import { IResponseRegister, RegisterDto, RegisterInfo } from './register.dto';
 
 /* interface AuthRegister {
   name: string;
@@ -44,8 +44,8 @@ import { IResponseRegister, RegisterDto, RegisterInfo } from './register.dto';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  public readonly fg: FormGroup;
-  public readonly fgToken: FormGroup;
+  public fgRegister!: FormGroup;
+  public fgToken!: FormGroup;
   public next = false;
   public qrCode!: string;
   private accessToken!: string;
@@ -53,9 +53,12 @@ export class RegisterComponent {
 
   constructor(
     private readonly router: Router,
-    private readonly http: HttpClient
-  ) {
-    this.fg = new FormGroup({
+    private readonly http: HttpClient,
+    private readonly authApplication: AuthApplication
+  ) {}
+
+  ngOnInit() {
+    this.fgRegister = new FormGroup({
       name: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
@@ -77,54 +80,38 @@ export class RegisterComponent {
   }
 
   register() {
-    const { name, lastname, email, password } = this.fg.value;
+    const { name, lastname, email, password } = this.fgRegister.value;
     const role = new Role('d18d0d20-d686-4520-a33c-e5e7653382bc');
 
     const authRegister = new AuthRegister(name, lastname, email, password, [
       role,
     ]);
 
-    this.http
-      .post<RegisterInfo>(
-        'https://backend-cursos-dev.h7dtvegsb89r2.us-east-1.cs.amazonlightsail.com/v1/auth/register',
-        authRegister.properties
-      )
-      .pipe(
-        map((info: unknown) =>
-          RegisterDto.fromDataToRequest(info as IResponseRegister)
-        )
-      )
+    this.authApplication.register(authRegister).subscribe({
+      next: this.nextRegister.bind(this),
+      error: console.log,
+    });
+  }
+
+  nextRegister(data: RegisterInfo) {
+    this.qrCode = data.qrCode;
+    this.secret = data.secret;
+    this.accessToken = data.accessToken;
+    this.next = true;
+  }
+
+  enable2fa() {
+    const { token } = this.fgToken.value;
+
+    this.authApplication
+      .enable2fa(token, this.secret, this.accessToken)
       .subscribe({
-        next: (data: RegisterInfo) => {
-          this.qrCode = data.qrCode;
-          this.secret = data.secret;
-          this.accessToken = data.accessToken;
-          this.next = true;
-        },
+        next: this.nextLogin.bind(this),
         error: console.log,
       });
   }
 
-  activate2fa() {
-    const { token } = this.fgToken.value;
-
-    this.http
-      .post<RegisterInfo>(
-        'https://backend-cursos-dev.h7dtvegsb89r2.us-east-1.cs.amazonlightsail.com/v1/auth/enable-2fa',
-        {
-          secret: this.secret,
-          token,
-        },
-        {
-          headers: { Authorization: `Bearer ${this.accessToken}` },
-        }
-      )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-          this.router.navigate(['/auth/login']);
-        },
-        error: console.log,
-      });
+  nextLogin(data: RegisterInfo) {
+    this.router.navigate(['/auth/login']);
   }
 }

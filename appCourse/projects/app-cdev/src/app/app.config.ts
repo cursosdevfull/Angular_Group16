@@ -8,17 +8,25 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import player from 'lottie-web';
 import { provideLottieOptions } from 'ngx-lottie';
-import { PerfectScrollbarConfigInterface } from 'ngx-om-perfect-scrollbar';
 
 import { routes } from './app.routes';
+import { AuthApplication } from './auth/application/auth.application';
+import { AuthInfrastructure } from './auth/infrastructure/auth.infrastructure';
 import { LogService } from './core/services/log.service';
 import { LayoutModule } from './modules/layout/layout.module';
+import { StorageApplication } from './storage/application/storage.application';
+import { StorageAdapter } from './storage/infrastructure/adapters/storage.adapter';
+import { StorageInfrastructure } from './storage/infrastructure/storage.infrastructure';
 
 export const LAYOUT_OPTIONS = new InjectionToken('LAYOUT_OPTIONS');
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-};
+//const guards = [AuthenticationGuard];
+const infrastructure = [
+  StorageInfrastructure,
+  StorageAdapter,
+  AuthInfrastructure,
+];
+const application = [StorageApplication, AuthApplication];
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,5 +48,8 @@ export const appConfig: ApplicationConfig = {
       },
     },
     provideAnimationsAsync(),
+    //...guards,
+    ...infrastructure,
+    ...application,
   ],
 };
