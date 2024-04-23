@@ -4,7 +4,7 @@ import {
   IMetadata,
   TableComponent,
 } from '../../../../shared/components/table/table.component';
-import { TUser } from '../../pages/user-page/user-page.component';
+import { UserEntity } from '../../../application/dtos/user.entity';
 
 @Component({
   selector: 'cdev-user-list',
@@ -14,7 +14,7 @@ import { TUser } from '../../pages/user-page/user-page.component';
   styleUrl: './user-list.component.css',
 })
 export class UserListComponent {
-  @Input('items') dataSource: TUser = [];
+  @Input('items') dataSource: UserEntity[] = [];
   @Input('metadata') metadata: IMetadata[] = [];
 
   constructor() {}

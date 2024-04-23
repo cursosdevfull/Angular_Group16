@@ -5,7 +5,7 @@ import {
   IMetadata,
   TableComponent,
 } from '../../../../shared/components/table/table.component';
-import { TCourse } from '../../pages/course-page/course-page.component';
+import { CourseEntity } from '../../../application/dtos/course.entity';
 
 @Component({
   selector: 'cdev-course-list',
@@ -15,6 +15,6 @@ import { TCourse } from '../../pages/course-page/course-page.component';
   styleUrl: './course-list.component.css',
 })
 export class CourseListComponent {
-  @Input('items') dataSource: TCourse = [];
+  @Input('items') dataSource: CourseEntity[] = [];
   @Input('metadata') metadata: IMetadata[] = [];
 }

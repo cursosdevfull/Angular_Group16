@@ -1,13 +1,18 @@
-<cdev-title title="User" icon="person"></cdev-title>
+<cdev-title title="User" icon="person">
+  <button mat-flat-button color="warn" (click)="openModal()">
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</cdev-title>
 <cdev-container>
   <perfect-scrollbar style="width: 100%; height: 90%">
     <cdev-user-list [items]="data" [metadata]="metadata"></cdev-user-list>
   </perfect-scrollbar>
   <div>
     <cdev-paginator
-      [length]="dataOriginal.length"
+      [length]="totalItems"
       [pageSize]="pageSize"
-      (onChangePage)="loadPage($event)"
+      (onChangePage)="fetchData($event)"
     ></cdev-paginator>
   </div>
 </cdev-container>

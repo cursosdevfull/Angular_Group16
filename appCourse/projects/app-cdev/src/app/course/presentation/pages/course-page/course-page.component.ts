@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { LayoutService } from '@modules/layout';
 import { ContainerComponent, TitleComponent } from '@shared/components';
 import {
@@ -10,6 +14,9 @@ import {
 import { ComponentBase } from '../../../../core/classes/component-base';
 import { PaginatorComponent } from '../../../../shared/components/paginator/paginator.component';
 import { IMetadata } from '../../../../shared/components/table/table.component';
+import { CourseApplication } from '../../../application/course.application';
+import { CourseEntity } from '../../../application/dtos/course.entity';
+import { CourseFormComponent } from '../../components/course-form/course-form.component';
 import { CourseListComponent } from '../../components/course-list/course-list.component';
 
 export interface ICourse {
@@ -33,6 +40,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CourseListComponent,
     PerfectScrollbarModule,
     PaginatorComponent,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    MatDialogModule,
   ],
   templateUrl: './course-page.component.html',
   styleUrl: './course-page.component.css',
@@ -43,267 +54,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     },
   ],
 })
-export class CoursePageComponent extends ComponentBase<ICourse, TCourse> {
-  dataOriginal = [
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-    {
-      id: 1,
-      title: 'Angular',
-      slug: 'angular',
-    },
-    {
-      id: 2,
-      title: 'React',
-      slug: 'react',
-    },
-    {
-      id: 3,
-      title: 'Vue',
-      slug: 'vue',
-    },
-  ];
-
+export class CoursePageComponent extends ComponentBase<
+  CourseEntity,
+  CourseEntity[]
+> {
   metadata: IMetadata[] = [
-    { field: 'id', label: 'ID' },
+    { field: 'courseId', label: 'ID' },
     {
       field: 'title',
       label: 'Title',
@@ -312,11 +68,23 @@ export class CoursePageComponent extends ComponentBase<ICourse, TCourse> {
       field: 'slug',
       label: 'Slug',
     },
+    {
+      field: 'status',
+      label: 'Status',
+    },
   ];
 
-  constructor(layoutService: LayoutService) {
-    super();
+  constructor(
+    layoutService: LayoutService,
+    protected readonly application: CourseApplication,
+    private dialog: MatDialog
+  ) {
+    super(application);
     layoutService.configuration = { showMenu: true, showHeader: true };
-    this.loadPage(this.currentPage);
+    this.fetchData(this.currentPage);
+  }
+
+  openModal(row?: CourseEntity) {
+    this.dialog.open(CourseFormComponent, { panelClass: 'modal-course' });
   }
 }

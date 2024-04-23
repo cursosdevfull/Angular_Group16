@@ -1,6 +1,17 @@
 import { NgClass, NgFor } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import {
+  Component,
+  ContentChildren,
+  Input,
+  QueryList,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import {
+  MatColumnDef,
+  MatTable,
+  MatTableModule,
+} from '@angular/material/table';
 
 export interface IMetadata {
   field: string;
@@ -16,16 +27,12 @@ export interface IMetadata {
 })
 export class TableComponent {
   @Input() metadata: IMetadata[] = [];
-
-  /*   subMetadata = [
-    { field: 'lastname', label: 'Apellido' },
-    { field: 'age', label: 'Edad de la persona' },
-  ]; */
-
   @Input() dataSource: any[] = [];
+  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
+  @ContentChildren(MatColumnDef)
+  columnDefs: QueryList<MatColumnDef>;
 
   displayedColumns: string[] = [];
-  // displayedSubColumns: string[] = ['details'];
 
   constructor() {}
 
@@ -33,12 +40,24 @@ export class TableComponent {
     if (changes['metadata']) {
       this.displayedColumns = this.metadata.map((m) => m.field);
       this.dataSource = this.dataSource.map((el) => ({ marked: false, ...el }));
-      console.log(this.dataSource);
     }
+    this.ngAfterContentInit();
   }
 
   selectRow(row: Record<string, string | number | boolean>) {
     row['marked'] = true;
-    console.log(row);
+  }
+
+  ngAfterContentInit() {
+    console.log('columnDefs', this.columnDefs);
+    console.log('length', this.dataSource.length);
+    if (!this.columnDefs || this.dataSource.length === 0) return;
+
+    console.log('columnDefs length', this.columnDefs.length);
+
+    this.columnDefs.forEach((columnDef: MatColumnDef) => {
+      this.displayedColumns.push(columnDef.name);
+      this.table.addColumnDef(columnDef);
+    });
   }
 }

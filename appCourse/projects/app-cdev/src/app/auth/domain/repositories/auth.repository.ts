@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { AuthRegister } from '../../../core/domain/roots/auth-register';
+import { ResponseInfo } from '../../infrastructure/dtos/get-new-access-token';
 import { LoginInfo } from '../../infrastructure/dtos/login.dto';
 import { RegisterInfo } from '../../infrastructure/dtos/register.dto';
 
@@ -23,4 +24,6 @@ export interface AuthRepository {
     secret: string,
     accessToken: string
   ): Observable<RegisterInfo>;
+
+  getNewAccessToken(refreshToken: string): Observable<ResponseInfo>;
 }

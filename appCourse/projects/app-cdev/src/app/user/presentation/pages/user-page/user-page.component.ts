@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { LayoutService } from '@modules/layout';
 import { ContainerComponent, TitleComponent } from '@shared/components';
 import {
@@ -10,6 +13,9 @@ import {
 import { ComponentBase } from '../../../../core/classes/component-base';
 import { PaginatorComponent } from '../../../../shared/components/paginator/paginator.component';
 import { IMetadata } from '../../../../shared/components/table/table.component';
+import { UserEntity } from '../../../application/dtos/user.entity';
+import { UserApplication } from '../../../application/user.application';
+import { UserFormComponent } from '../../components/user-form/user-form.component';
 import { UserListComponent } from '../../components/user-list/user-list.component';
 
 export interface IUser {
@@ -34,6 +40,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     UserListComponent,
     PerfectScrollbarModule,
     PaginatorComponent,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
   templateUrl: './user-page.component.html',
   styleUrl: './user-page.component.css',
@@ -44,27 +53,25 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     },
   ],
 })
-export class UserPageComponent extends ComponentBase<IUser, TUser> {
-  dataOriginal: TUser = [
-    { name: 'Juan', lastname: 'Perez', age: 25, email: 'juan.perez@email.com' },
-    {
-      name: 'Maria',
-      lastname: 'Gomez',
-      age: 30,
-      email: 'maria.gomez@email.com',
-    },
-  ];
-
+export class UserPageComponent extends ComponentBase<UserEntity, UserEntity[]> {
   metadata: IMetadata[] = [
+    { field: 'userId', label: 'ID' },
     { field: 'name', label: 'Nombre' },
     { field: 'lastname', label: 'Apellido' },
     { field: 'email', label: 'Correo electrónico' },
-    { field: 'age', label: 'Edad' },
   ];
 
-  constructor(layoutService: LayoutService) {
-    super();
+  constructor(
+    layoutService: LayoutService,
+    private readonly application: UserApplication,
+    private dialog: MatDialog
+  ) {
+    super(application);
     layoutService.configuration = { showMenu: true, showHeader: true };
-    this.loadPage(this.currentPage);
+    this.fetchData(this.currentPage);
+  }
+
+  openModal(data?: UserEntity) {
+    this.dialog.open(UserFormComponent, { panelClass: 'modal-user' });
   }
 }

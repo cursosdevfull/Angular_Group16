@@ -101,6 +101,7 @@ export class LoginComponent {
   nextActivate2fa(data: LoginInfo) {
     this.storage.save('accessToken', data.accessToken);
     this.storage.save('refreshToken', data.refreshToken);
+    console.log('setInformationUser desde nextActivate2fa');
     this.authApplication.setInformationUser(data.accessToken);
     this.router.navigate(['/dashboard']);
   }

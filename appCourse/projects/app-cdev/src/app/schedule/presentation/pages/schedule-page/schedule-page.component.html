@@ -1,4 +1,9 @@
-<cdev-title title="Schedule" icon="schedule"></cdev-title>
+<cdev-title title="Schedule" icon="schedule">
+  <button mat-flat-button color="warn" (click)="openModal()">
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</cdev-title>
 <cdev-container>
   <perfect-scrollbar style="width: 100%; height: 90%">
     <cdev-schedule-list
@@ -8,9 +13,9 @@
   </perfect-scrollbar>
   <div>
     <cdev-paginator
-      [length]="dataOriginal.length"
+      [length]="totalItems"
       [pageSize]="pageSize"
-      (onChangePage)="loadPage($event)"
+      (onChangePage)="fetchData($event)"
     ></cdev-paginator>
   </div>
 </cdev-container>

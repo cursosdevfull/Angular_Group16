@@ -19,7 +19,6 @@ export class HeaderComponent {
 
   constructor(private readonly authApplication: AuthApplication) {
     this.authApplication.getInformationUser().subscribe((el) => {
-      console.log('information user', el);
       if (el) {
         this.username = `${el.name} ${el.lastname}`;
         this.imageAvatarUrl = el.image ? el.image : this.imageAvatarUrl;

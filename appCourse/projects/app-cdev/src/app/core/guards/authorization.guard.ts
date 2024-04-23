@@ -19,9 +19,6 @@ export const authorizationGuard: CanActivateFn = (
   const rolesAllowed: string[] = (route.data as Data)['roles'];
   const rolesUser: string[] = authApplication.rolesUser;
 
-  console.log('rolesAllowed', rolesAllowed);
-  console.log('rolesUser', rolesUser);
-
   const isUserAllowed = rolesAllowed.some((role: string) =>
     rolesUser.includes(role)
   );

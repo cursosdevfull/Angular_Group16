@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import env from '../../../assets/env.json';
 import { AuthRegister } from '../../core/domain/roots/auth-register';
 import { AuthRepository } from '../domain/repositories/auth.repository';
+import { ResponseInfo } from './dtos/get-new-access-token';
 import { LoginInfo } from './dtos/login.dto';
 import { RegisterInfo } from './dtos/register.dto';
 
@@ -59,6 +60,15 @@ export class AuthInfrastructure implements AuthRepository {
       },
       {
         headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+  }
+
+  getNewAccessToken(refreshToken: string): Observable<ResponseInfo> {
+    return this.http.post<ResponseInfo>(
+      `${env.urlApi}/v1/auth/get-new-access-token`,
+      {
+        refreshToken,
       }
     );
   }

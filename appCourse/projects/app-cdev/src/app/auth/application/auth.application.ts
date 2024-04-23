@@ -6,15 +6,10 @@ import { AuthRegister } from '../../core/domain/roots/auth-register';
 import { StorageApplication } from '../../storage/application/storage.application';
 import { AuthRepository } from '../domain/repositories/auth.repository';
 import { AuthInfrastructure } from '../infrastructure/auth.infrastructure';
+import { IResponseGetNewAccessToken, ResponseGetNewAccessTokenDto } from '../infrastructure/dtos/get-new-access-token';
 import { IResponseLogin, LoginDto } from '../infrastructure/dtos/login.dto';
-import {
-  IResponseRegister,
-  RegisterDto,
-} from '../infrastructure/dtos/register.dto';
-import {
-  GetInformationUserDto,
-  IInformationUser,
-} from './dtos/get-information-user.dto';
+import { IResponseRegister, RegisterDto } from '../infrastructure/dtos/register.dto';
+import { GetInformationUserDto, IInformationUser } from './dtos/get-information-user.dto';
 
 @Injectable()
 export class AuthApplication {
@@ -58,6 +53,7 @@ export class AuthApplication {
   }
 
   setInformationUser(accessToken: string) {
+    console.log("setInformationUser")
     const data = GetInformationUserDto.fromTokenToInformationUser(accessToken);
     this.informationUser.next(data);
   }
@@ -67,6 +63,7 @@ export class AuthApplication {
   }
 
   logout() {
+    console.log("informationUser desde logout")
     this.storageApplication.clear();
     this.informationUser.next(null);
     this.router.navigate(['/auth/login']);
@@ -92,5 +89,17 @@ export class AuthApplication {
     }
 
     return [];
+  }
+
+  getNewAccessToken(refreshToken: string) {
+    return this.authRepository
+      .getNewAccessToken(refreshToken)
+      .pipe(
+        map((el: unknown) =>
+          ResponseGetNewAccessTokenDto.fromDataToRequest(
+            el as IResponseGetNewAccessToken
+          )
+        )
+      );
   }
 }
