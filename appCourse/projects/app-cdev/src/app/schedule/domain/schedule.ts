@@ -8,6 +8,7 @@ export interface ScheduleOptionals {
   scheduleId: string;
   slug: string;
   status: ScheduleStatus;
+  courseId: string;
 }
 
 export type ScheduleProperties = ScheduleEssentials &

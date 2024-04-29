@@ -13,6 +13,9 @@ export interface UserOptionals {
 
 export type UserProperties = UserEssentials & Partial<UserOptionals>;
 
+export type UserUpdateProperties = Omit<UserEssentials, 'email'> &
+  Omit<UserOptionals, 'userId'>;
+
 export class User {
   private readonly userId: string | undefined;
   private name: string;

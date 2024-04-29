@@ -1,3 +1,31 @@
 .modal-course {
   width: 800px;
 }
+
+.modal-course mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-course form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-course form .fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.modal-course form .fields mat-form-field {
+  width: 100% !important;
+}
+
+.modal-course form .form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}

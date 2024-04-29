@@ -13,3 +13,7 @@ body {
   background-color: rgb(185, 185, 159);
   cursor: pointer;
 }
+
+.align-right {
+  text-align: right !important;
+}

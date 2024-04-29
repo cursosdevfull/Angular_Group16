@@ -1,3 +1,31 @@
 .modal-user {
   width: 800px;
 }
+
+.modal-user mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-user form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-user form .fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.modal-user form .fields mat-form-field {
+  width: 100% !important;
+}
+
+.modal-user form .form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}

@@ -9,9 +9,14 @@
     <cdev-schedule-list
       [items]="data"
       [metadata]="metadata"
+      (onEdit)="openModal($event)"
+      (onDelete)="delete($event)"
     ></cdev-schedule-list>
   </perfect-scrollbar>
-  <div>
+  <div class="footer">
+    <button mat-raised-button color="primary" (click)="export()">
+      Export data
+    </button>
     <cdev-paginator
       [length]="totalItems"
       [pageSize]="pageSize"

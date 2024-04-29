@@ -1,0 +1,15 @@
+<mat-nav-list>
+  <mat-list-item (click)="exportToExcel()">
+    <span matListItemTitle>Export to excel</span>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item (click)="exportToPDF('view')">
+    <span matListItemTitle>Export to pdf (view)</span>
+  </mat-list-item>
+  <mat-list-item (click)="exportToPDF('download')">
+    <span matListItemTitle>Export to pdf (download)</span>
+  </mat-list-item>
+  <mat-list-item (click)="exportToPDF('print')">
+    <span matListItemTitle>Export to pdf (print)</span>
+  </mat-list-item>
+</mat-nav-list>

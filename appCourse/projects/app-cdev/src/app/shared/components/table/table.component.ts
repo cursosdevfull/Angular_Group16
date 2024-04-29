@@ -49,15 +49,13 @@ export class TableComponent {
   }
 
   ngAfterContentInit() {
-    console.log('columnDefs', this.columnDefs);
-    console.log('length', this.dataSource.length);
     if (!this.columnDefs || this.dataSource.length === 0) return;
 
-    console.log('columnDefs length', this.columnDefs.length);
-
     this.columnDefs.forEach((columnDef: MatColumnDef) => {
-      this.displayedColumns.push(columnDef.name);
-      this.table.addColumnDef(columnDef);
+      if (!this.displayedColumns.includes(columnDef.name)) {
+        this.displayedColumns.push(columnDef.name);
+        this.table.addColumnDef(columnDef);
+      }
     });
   }
 }

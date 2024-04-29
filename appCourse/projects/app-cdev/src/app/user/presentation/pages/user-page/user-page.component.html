@@ -6,9 +6,17 @@
 </cdev-title>
 <cdev-container>
   <perfect-scrollbar style="width: 100%; height: 90%">
-    <cdev-user-list [items]="data" [metadata]="metadata"></cdev-user-list>
+    <cdev-user-list
+      [items]="data"
+      [metadata]="metadata"
+      (onEdit)="openModal($event)"
+      (onDelete)="delete($event)"
+    ></cdev-user-list>
   </perfect-scrollbar>
-  <div>
+  <div class="footer">
+    <button mat-raised-button color="primary" (click)="export()">
+      Export data
+    </button>
     <cdev-paginator
       [length]="totalItems"
       [pageSize]="pageSize"

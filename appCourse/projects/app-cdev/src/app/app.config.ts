@@ -18,6 +18,7 @@ import { AuthApplication } from './auth/application/auth.application';
 import { AuthInfrastructure } from './auth/infrastructure/auth.infrastructure';
 import { HeaderInterceptor } from './core/interceptors/header.interceptor';
 import { LogService } from './core/services/log.service';
+import { UtilsService } from './core/services/utils.service';
 import { CourseApplication } from './course/application/course.application';
 import { CourseInfrastructure } from './course/infrastructure/course.infrastructure';
 import { LayoutModule } from './modules/layout/layout.module';
@@ -71,5 +72,6 @@ export const appConfig: ApplicationConfig = {
     //...guards,
     ...infrastructure,
     ...application,
+    UtilsService,
   ],
 };
