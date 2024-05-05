@@ -3,11 +3,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { TableComponent } from 'app-cdev-lib';
 
-import {
-  IMetadata,
-  TableComponent,
-} from '../../../../shared/components/table/table.component';
+import { IMetadata } from '../../../../shared/components/table/table.component';
 import { ScheduleEntity } from '../../../application/dtos/schedule.entity';
 
 @Component({
@@ -15,11 +13,12 @@ import { ScheduleEntity } from '../../../application/dtos/schedule.entity';
   standalone: true,
   imports: [
     NgFor,
-    TableComponent,
+    //TableComponent,
     MatIconModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    TableComponent,
   ],
   templateUrl: './schedule-list.component.html',
   styleUrl: './schedule-list.component.css',

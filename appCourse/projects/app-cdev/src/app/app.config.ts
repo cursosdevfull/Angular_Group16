@@ -24,6 +24,7 @@ import { CourseInfrastructure } from './course/infrastructure/course.infrastruct
 import { LayoutModule } from './modules/layout/layout.module';
 import { ScheduleApplication } from './schedule/application/schedule.application';
 import { ScheduleInfrastructure } from './schedule/infrastructure/schedule.infrastructure';
+import { SocketService } from './socket/socket.service';
 import { StorageApplication } from './storage/application/storage.application';
 import { StorageAdapter } from './storage/infrastructure/adapters/storage.adapter';
 import { StorageInfrastructure } from './storage/infrastructure/storage.infrastructure';
@@ -40,6 +41,7 @@ const infrastructure = [
   CourseInfrastructure,
   ScheduleInfrastructure,
   UserInfrastructure,
+  SocketService,
 ];
 const application = [
   StorageApplication,

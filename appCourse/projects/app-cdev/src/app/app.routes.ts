@@ -6,7 +6,7 @@ import { authenticationGuard } from './core/guards/authentication.guard';
 import { authorizationGuard } from './core/guards/authorization.guard';
 import { PageLoginComponent } from './core/pages/page-login/page-login.component';
 import { CoursePageComponent } from './course/presentation/pages/course-page/course-page.component';
-import { PageDashboardComponent } from './dashboard/infrastructure/presentation/pages/page-dashboard/page-dashboard.component';
+import { PageDashboardComponent } from './dashboard/presentation/pages/page-dashboard/page-dashboard.component';
 import { SchedulePageComponent } from './schedule/presentation/pages/schedule-page/schedule-page.component';
 import { UserPageComponent } from './user/presentation/pages/user-page/user-page.component';
 

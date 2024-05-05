@@ -10,11 +10,16 @@ import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarModule,
 } from 'ngx-om-perfect-scrollbar';
+import { Subscription } from 'rxjs';
 
 import { ComponentBase } from '../../../../core/classes/component-base';
 import { UtilsService } from '../../../../core/services/utils.service';
 import { PaginatorComponent } from '../../../../shared/components/paginator/paginator.component';
 import { IMetadata } from '../../../../shared/components/table/table.component';
+import {
+  INotification,
+  SocketService,
+} from '../../../../socket/socket.service';
 import { CourseApplication } from '../../../application/course.application';
 import { CourseEntity } from '../../../application/dtos/course.entity';
 import { Course, CourseProperties, CourseStatus } from '../../../domain/course';
@@ -76,14 +81,54 @@ export class CoursePageComponent extends ComponentBase<
     },
   ];
 
+  subscriptionSocket: Subscription;
+
   constructor(
     layoutService: LayoutService,
     protected readonly application: CourseApplication,
-    private readonly utilsService: UtilsService
+    private readonly utilsService: UtilsService,
+    private readonly socket: SocketService
   ) {
     super(application);
     layoutService.configuration = { showMenu: true, showHeader: true };
     this.fetchData(this.currentPage);
+
+    this.handleSubscription();
+  }
+
+  handleSubscription() {
+    this.socket.subscribe('course:subscribe');
+    this.subscriptionSocket = this.socket
+      .getNotifications('NOTIFICATION_COURSE')
+      .subscribe(this.getNotifications.bind(this));
+  }
+
+  getNotifications(response: INotification) {
+    const action = response.action;
+
+    console.log('Notification received', response);
+
+    if (action === 'UPDATE') {
+      const { courseId, ...restData } = response.data;
+      const course = this.data.find((c) => c.courseId === courseId);
+
+      if (course) {
+        course.title = restData.title;
+        course.slug = restData.slug;
+        course.status = restData.status;
+        this.utilsService.showMessage(
+          `Course: ${restData.title} updated by another user`
+        );
+      }
+    } else if (action === 'CREATE' || action === 'DELETE') {
+      const data = response.data;
+      this.fetchData(this.currentPage);
+      this.utilsService.showMessage(
+        `Course ${data.title} ${
+          action === 'CREATE' ? 'created' : 'deleted'
+        } by another user`
+      );
+    }
   }
 
   openModal(row?: any) {
@@ -145,5 +190,10 @@ export class CoursePageComponent extends ComponentBase<
         'List of courses'
       );
     });
+  }
+
+  ngOnDestroy() {
+    this.socket.subscribe('course:unsubscribe');
+    this.subscriptionSocket.unsubscribe();
   }
 }

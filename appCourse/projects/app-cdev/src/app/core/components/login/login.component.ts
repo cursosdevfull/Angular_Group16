@@ -20,6 +20,7 @@ import {
 
 import { AuthApplication } from '../../../auth/application/auth.application';
 import { LoginInfo } from '../../../auth/infrastructure/dtos/login.dto';
+import { SocketService } from '../../../socket/socket.service';
 import { StorageApplication } from '../../../storage/application/storage.application';
 
 const KEY_PUBLIC = '6Len6pMpAAAAAHGxLZDXxvPwRLu4W8DjOpdIs13r';
@@ -61,7 +62,8 @@ export class LoginComponent {
   constructor(
     private readonly router: Router,
     private readonly storage: StorageApplication,
-    private readonly authApplication: AuthApplication
+    private readonly authApplication: AuthApplication,
+    private readonly socket: SocketService
   ) {}
 
   login() {
@@ -103,6 +105,7 @@ export class LoginComponent {
     this.storage.save('refreshToken', data.refreshToken);
     console.log('setInformationUser desde nextActivate2fa');
     this.authApplication.setInformationUser(data.accessToken);
+    this.socket.connect();
     this.router.navigate(['/dashboard']);
   }
 }
